@@ -4,6 +4,8 @@ var leftPressed = false;
 var rightPressed = false;
 var lastPressed = false;
 
+var bombLanded = false
+
 function keyup(event) {
 	var player = document.getElementById('player');
 	if (event.keyCode == 37) {
@@ -98,22 +100,34 @@ function keydown(event) {
 		downPressed = true;
 	}
 }
-
+// allows the game to 'begin' 
 function startGame(){
 	timeout = setInterval(move,10);
 	document.addEventListener('keydown',keydown);
 	document.addEventListener('keyup',keyup);
 
-	var startBttn = document.getElementsByClassName('start')[0];
-	startBttn.style.display = 'none';
+	var playGame = document.getElementsByClassName('start')[0];
+	playGame.style.display = 'none';
 
+	//creates the space ships using the for loop in a function
 	var number = 10;
+
+
 	for (var i = 0; i < number; i++)
 	{
 		createSpaceShip();
 	}
-	setInterval(spaceShipPositions,1000);
+	setInterval(spaceShipPositions,2000);
+
+
+
+	for (var i = 0; i < number; i++)
+	{
+		dropBomb()
+	}
+	setInterval(dropBomb,800)
 }
+
 
 function createSpaceShip(){
 	var spaceShip = document.createElement('div');
@@ -126,17 +140,48 @@ function spaceShipPositions (){
 	var spaceShips = document.getElementsByClassName('alien');
 
 	for (var i = 0; i < spaceShips.length; i++){
-		var anyNumber = Math.ceil(Math.random() *10);
+		var anyNumber = Math.ceil(Math.random() * 10);
 		spaceShips[i].style.top = 0;
 		spaceShips[i].style.left = anyNumber + '0vw';
+		
+		var bombs = document.createElement('div');
+		bombs.classList = 'bomb';
+		var body = document.getElementsByTagName('body')[0];
+		body.appendChild(bombs);
+		bombs.style.left = anyNumber + '0vw';
 
 	}
+	
 }
 
+function dropBomb (){
+	var bombs = document.getElementsByClassName('bomb');
+	for (var i = 0; i < bombs.length; i++)
+	{
+		var positionTop = bombs[i].offsetTop;
+		var newTop = positionTop + 10;
+	//	if (bombs.classList.contains('sky') == true){
+			bombs[i].style.top = newTop + 'px';
+			
+			console.log(newTop)
+
+	}
+	}
+/* determines the position of the bombs
+function positionBombs(){
+	var bombs = document.getElementsByClassName('bomb');
+// randomly creates a random number of bombs
+	for (var i = 0; i < bombs.length; i++){
+		var anyNumber = Math.ceil(Math.random() *10);
+		bombs[i].style.top = 0;
+		bombs[i].style.left = anyNumber + '0vw';
+	}
+}
+*/
 
 function myLoadFunction() {
-	var startBttn = document.getElementsByClassName('start')[0];
-	startBttn.addEventListener('click',startGame);
+	var playGame = document.getElementsByClassName('start')[0];
+	playGame.addEventListener('click',startGame);
 }
 
 

@@ -4,8 +4,6 @@ var leftPressed = false;
 var rightPressed = false;
 var lastPressed = false;
 
-var bombLanded = false
-
 function keyup(event) {
 	var player = document.getElementById('player');
 	if (event.keyCode == 37) {
@@ -105,79 +103,70 @@ function startGame(){
 	timeout = setInterval(move,10);
 	document.addEventListener('keydown',keydown);
 	document.addEventListener('keyup',keyup);
-
+	
 	var playGame = document.getElementsByClassName('start')[0];
 	playGame.style.display = 'none';
-
 	//creates the space ships using the for loop in a function
-	var number = 10;
-
-
-	for (var i = 0; i < number; i++)
-	{
-		createSpaceShip();
-	}
+	createSpaceShip(1);
 	setInterval(spaceShipPositions,2000);
 
-
-
-	for (var i = 0; i < number; i++)
-	{
-		dropBomb()
-	}
-	setInterval(dropBomb,800)
 }
 
 
-function createSpaceShip(){
+function createSpaceShip(number){
+	for ( var i = 0; i < number; i++){
 	var spaceShip = document.createElement('div');
 	spaceShip.classList = 'alien';
 	var body = document.getElementsByTagName('body')[0];
 	body.appendChild(spaceShip);
+	}
 }
 
 function spaceShipPositions (){
 	var spaceShips = document.getElementsByClassName('alien');
 
 	for (var i = 0; i < spaceShips.length; i++){
-		var anyNumber = Math.ceil(Math.random() * 10);
+		var anyNumber = Math.ceil(Math.random() * 100);
 		spaceShips[i].style.top = 0;
-		spaceShips[i].style.left = anyNumber + '0vw';
+		spaceShips[i].style.left = anyNumber + 'vw';
 		
 		var bombs = document.createElement('div');
 		bombs.classList = 'bomb';
-		var body = document.getElementsByTagName('body')[0];
-		body.appendChild(bombs);
-		bombs.style.left = anyNumber + '0vw';
+		bombs.style.left = anyNumber+1.7 + 'vw';
+		bombs.style.top = '93px';
+		document.body.appendChild(bombs);
+		moveBomb(bombs)
 
 	}
 	
 }
 
-function dropBomb (){
-	var bombs = document.getElementsByClassName('bomb');
-	for (var i = 0; i < bombs.length; i++)
-	{
-		var positionTop = bombs[i].offsetTop;
-		var newTop = positionTop + 10;
-	//	if (bombs.classList.contains('sky') == true){
-			bombs[i].style.top = newTop + 'px';
-			
-			console.log(newTop)
 
+function moveBomb (bomb){
+	var velocity = Math.ceil(Math.random()*100);
+	var bombTimer = Math.ceil(Math.random()*100);
+	var top = bomb.offsetTop;
+	setInterval(function(){
+
+	var sky = document.getElementsByClassName('sky')[0];
+	var skyHeight = sky.offsetHeight;
+
+	if (top > skyHeight)
+	{
+
+		
+		bomb.classList = 'explosion';
+		
+		
 	}
+	else {
+		bomb.style.top = top++ + 'px';
 	}
-/* determines the position of the bombs
-function positionBombs(){
-	var bombs = document.getElementsByClassName('bomb');
-// randomly creates a random number of bombs
-	for (var i = 0; i < bombs.length; i++){
-		var anyNumber = Math.ceil(Math.random() *10);
-		bombs[i].style.top = 0;
-		bombs[i].style.left = anyNumber + '0vw';
-	}
+
+	
+},velocity)
 }
-*/
+
 
 function myLoadFunction() {
 	var playGame = document.getElementsByClassName('start')[0];

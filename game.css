@@ -4,6 +4,47 @@
 body {background-image: url(images/bg.png); margin: 0; padding: 0; font-family: 'Oxygen-Regular', sans-serif; overflow: hidden;}
 
 
+.scoreboard{
+	color: white;
+	position: relative;
+	top: 5px;
+	text-shadow: 2px 2px 2px #000;
+	position: absolute;
+	font-size: 1.5em;
+	float: left;
+	width: 20vw;
+	background-color: #ccc;
+	z-index: 1000;
+	text-align: center;
+	font-family: 'Anton';
+	cursor: pointer;
+	border-radius: 20px;
+	border:2px solid red;
+	box-shadow: 4px 4px 4px #000;
+	opacity: 
+	80%;
+}
+
+.PlayersName{
+	color: white;
+	position: relative;
+	top: 50px;
+	text-shadow: 2px 2px 2px #000;
+	position: absolute;
+	font-size: 1.5em;
+	float: left;
+	width: 20vw;
+	background-color: #ccc;
+	z-index: 1000;
+	text-align: center;
+	font-family: 'Anton';
+	cursor: pointer;
+	border-radius: 20px;
+	border:2px solid red;
+	box-shadow: 4px 4px 4px #000;
+	opacity: 
+	80%;
+}
 .sky {position: absolute;width: 100vw;height: 70vh;left: 0;top: 0;background-image: url("images/nightSky.png");background-color: #000;}
 
 aside {width: 200px; position: fixed; height: 100vh; left: 100%; margin-left: -240px; background-color: #ddd; border-left: 5px solid #bbb; padding: 20px;}

@@ -104,6 +104,34 @@ function startGame(){
 	document.addEventListener('keydown',keydown);
 	document.addEventListener('keyup',keyup);
 	
+
+	var playerName = document.getElementById('pn');
+
+	var score = document.getElementById('sb');
+	
+	let welcomeText = prompt("Welcome, please enter your name...");
+
+	if (welcomeText == null || welcomeText == ""){
+		alert("Good luck stranger!")
+	}
+	else {
+		alert(" Good luck " + welcomeText +"!")
+	}
+
+	if (welcomeText == null || welcomeText == "")
+	{
+		welcomeText = 'unknown'
+	}
+
+	playerName.textContent = welcomeText;
+	
+
+	var scores = 0;
+	score.textContent = scores;
+
+	
+	
+
 	var playGame = document.getElementsByClassName('start')[0];
 	playGame.style.display = 'none';
 	//creates the space ships using the for loop in a function
@@ -145,6 +173,9 @@ function spaceShipPositions (){
 function moveBomb (bomb){
 	var velocity = Math.ceil(Math.random()*100);
 	var bombTimer = Math.ceil(Math.random()*100);
+	var bombExplosionTimer = Math.ceil(Math.random()*100);
+	var delayInMiliseconds = 2000;
+	 
 	var top = bomb.offsetTop;
 	setInterval(function(){
 
@@ -153,11 +184,22 @@ function moveBomb (bomb){
 
 	if (top > skyHeight)
 	{
+		setTimeout(function(){
+
+	
 
 		
 		bomb.classList = 'explosion';
-		
-		
+
+		},bombExplosionTimer)
+
+
+
+		setTimeout(function(){
+		bomb.outerHTML = "";
+		// When the bomb exploded it is the removed from the screen
+			
+		},delayInMiliseconds)
 	}
 	else {
 		bomb.style.top = top++ + 'px';

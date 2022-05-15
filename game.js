@@ -170,43 +170,55 @@ function spaceShipPositions (){
 }
 
 
+
+
+
+
+
 function moveBomb (bomb){
+
 	var velocity = Math.ceil(Math.random()*100);
 	var bombTimer = Math.ceil(Math.random()*100);
-	var bombExplosionTimer = Math.ceil(Math.random()*100);
+	var bombExplosionTimer =Math.ceil(Math.random(700)*2100);;
 	var delayInMiliseconds = 2000;
+	var randomNum = Math.ceil(Math.random()*50);
+	var removeBombTimer = 500;
 	 
 	var top = bomb.offsetTop;
 	setInterval(function(){
 
 	var sky = document.getElementsByClassName('sky')[0];
 	var skyHeight = sky.offsetHeight;
+	bomb.style.top = top++ + 'px';
+
 
 	if (top > skyHeight)
 	{
 		setTimeout(function(){
-
-	
-
 		
-		bomb.classList = 'explosion';
-
+			bomb.classList = 'explosion';
 		},bombExplosionTimer)
+		
+		
+	}
 
-
-
+	if (bomb.classList == 'explosion' || bomb.classList.contains('player'))
+	{
 		setTimeout(function(){
-		bomb.outerHTML = "";
-		// When the bomb exploded it is the removed from the screen
-			
-		},delayInMiliseconds)
+			bomb.remove();
+		},removeBombTimer)
 	}
-	else {
-		bomb.style.top = top++ + 'px';
-	}
-
 	
 },velocity)
+
+
+
+
+
+
+
+
+
 }
 
 

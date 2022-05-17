@@ -4,6 +4,7 @@ var leftPressed = false;
 var rightPressed = false;
 var lastPressed = false;
 
+
 function keyup(event) {
 	var player = document.getElementById('player');
 	if (event.keyCode == 37) {
@@ -127,7 +128,10 @@ function startGame(){
 	
 
 	var scores = 0;
+	
 	score.textContent = scores;
+
+	
 
 	
 	
@@ -168,59 +172,68 @@ function spaceShipPositions (){
 	}
 	
 }
-
-
-
-
-
-
-
 function moveBomb (bomb){
-
 	var velocity = Math.ceil(Math.random()*100);
 	var bombTimer = Math.ceil(Math.random()*100);
 	var bombExplosionTimer =Math.ceil(Math.random(700)*2100);;
 	var delayInMiliseconds = 2000;
 	var randomNum = Math.ceil(Math.random()*50);
 	var removeBombTimer = 500;
-	 
+
 	var top = bomb.offsetTop;
 	setInterval(function(){
 
 	var sky = document.getElementsByClassName('sky')[0];
 	var skyHeight = sky.offsetHeight;
 	bomb.style.top = top++ + 'px';
+	var player = document.getElementById('player');
 
+
+	var topLeft = document.elementFromPoint(player.offsetLeft,player.offsetTop);
+	var topRight = document.elementFromPoint(player.offsetLeft +32,player.offsetTop);
+	var bottomRight = document.elementFromPoint(player.offsetLeft +32,player.offsetTop - 1)
+	var bottomLeft = document.elementFromPoint(player.offsetLeft,player.offsetTop - 1)
 
 	if (top > skyHeight)
 	{
 		setTimeout(function(){
+		bomb.classList = 'explosion';
+
+		if (topLeft.classList.contains('explosion') == true || topRight.classList.contains('explosion')|| bottomRight.classList.contains('explosion') || bottomLeft.classList.contains('explosion') )
+		{
+			console.log('hit')
+			player.classList = 'character stand dead'
+	
+		}
+
 		
-			bomb.classList = 'explosion';
 		},bombExplosionTimer)
-		
-		
 	}
 
-	if (bomb.classList == 'explosion' || bomb.classList.contains('player'))
+	if (bomb.classList == 'explosion' )
 	{
 		setTimeout(function(){
-			bomb.remove();
+			if (bomb.parentNode != null)
+			{
+				bomb.parentNode.removeChild(bomb)
+			}
 		},removeBombTimer)
 	}
+
+	/* Here if bomb touches my player , player loses a life
+	& bomb exploded */
 	
 },velocity)
 
 
-
-
-
-
-
-
-
 }
 
+// function calculateLives (){
+
+// 	var lives = document.getElementsByClassName
+// }
+
+	
 
 function myLoadFunction() {
 	var playGame = document.getElementsByClassName('start')[0];

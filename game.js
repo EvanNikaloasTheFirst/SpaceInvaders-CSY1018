@@ -3,7 +3,7 @@ var downPressed = false;
 var leftPressed = false;
 var rightPressed = false;
 var lastPressed = false;
-
+var hit = 1;
 
 function keyup(event) {
 	var player = document.getElementById('player');
@@ -131,14 +131,8 @@ function startGame(){
 	
 	score.textContent = scores;
 
-	
-
-	
-	
-
 	var playGame = document.getElementsByClassName('start')[0];
 	playGame.style.display = 'none';
-	//creates the space ships using the for loop in a function
 	createSpaceShip(1);
 	setInterval(spaceShipPositions,2000);
 
@@ -173,68 +167,126 @@ function spaceShipPositions (){
 	
 }
 function moveBomb (bomb){
+	
 	var velocity = Math.ceil(Math.random()*100);
 	var bombTimer = Math.ceil(Math.random()*100);
 	var bombExplosionTimer =Math.ceil(Math.random(700)*2100);;
-	var delayInMiliseconds = 2000;
 	var randomNum = Math.ceil(Math.random()*50);
-	var removeBombTimer = 500;
+
 
 	var top = bomb.offsetTop;
 	setInterval(function(){
 
 	var sky = document.getElementsByClassName('sky')[0];
 	var skyHeight = sky.offsetHeight;
-	bomb.style.top = top++ + 'px';
+
 	var player = document.getElementById('player');
 
 
 	var topLeft = document.elementFromPoint(player.offsetLeft,player.offsetTop);
-	var topRight = document.elementFromPoint(player.offsetLeft +32,player.offsetTop);
-	var bottomRight = document.elementFromPoint(player.offsetLeft +32,player.offsetTop - 1)
-	var bottomLeft = document.elementFromPoint(player.offsetLeft,player.offsetTop - 1)
+	
 
 	if (top > skyHeight)
 	{
-		setTimeout(function(){
 		bomb.classList = 'explosion';
 
-		if (topLeft.classList.contains('explosion') == true || topRight.classList.contains('explosion')|| bottomRight.classList.contains('explosion') || bottomLeft.classList.contains('explosion') )
+		if (topLeft.classList.contains('explosion') == true)
 		{
-			console.log('hit')
-			player.classList = 'character stand dead'
-	
+			resetPlayerPosition();
+			console.log('hit');
+			player.classList = 'character hit left'
+			// reset()
 		}
-
-		
-		},bombExplosionTimer)
-	}
-
-	if (bomb.classList == 'explosion' )
-	{
 		setTimeout(function(){
 			if (bomb.parentNode != null)
 			{
-				bomb.parentNode.removeChild(bomb)
+				bomb.parentNode.removeChild(bomb);
+
 			}
-		},removeBombTimer)
+		},800)
+	} else {
+		top = top + 1
+		bomb.style.top = top + 'px'
 	}
-
-	/* Here if bomb touches my player , player loses a life
-	& bomb exploded */
-	
 },velocity)
-
 
 }
 
-// function calculateLives (){
-
-// 	var lives = document.getElementsByClassName
-// }
-
+function removeLife()
+{
+	var player = document.getElementsByClassName('player')
+	var life = document.getElementsByTagName('li');
+//if the life is higher than 1 remove a life
+	if (life.length >= 1)
+	{
+		life[0].remove();
+		console.log(hit);
+		findExplosions();
+		hit++;
+	}
+	if (hit > 3)
+	{
+		player.classList = 'character stand dead';
+		var start = document.getElementsByClassName('start')[0];
+		start.style.display = 'block';
+		start.firstChild.nodeValue = 'Game over';
+		start.style.backgroundColor = 'red';
+		start.style.color = 'white';
+		reset();
+		
+	}
 	
+}
+// Included so one bomb is tracked as one hit to the character
+function findExplosions ()
+{
+	var explosionsFound = document.getElementsByClassName('explosion');
 
+	for (var i =0; i < findExplosions.length; i++)
+	{
+		explosionsFound[0].remove();
+	}	
+}
+
+
+// resets player position back to origianl position
+function resetPlayerPosition()
+{
+	var player = document.getElementById('player')
+	player.style.top;
+	player.style.left = '200px';
+	removeLife();
+}
+
+function reset ()
+{
+	var player = document.getElementById('player')
+	player.style.top
+	 = '90vh'
+	 player.style.left = '200px'
+	 player.classList = 'character dead'
+	 clearBombs();
+	 console.log('Hello')
+}
+
+function clearBombs ()
+{
+	var bombs = document.getElementsByClassName('bomb');
+
+	for (var i = 0; i < bombs.length; i++)
+	{
+		setTimeout(function(){
+			bombs[i].parentNode.removeChild(bombs[i])
+		},100000)
+		
+	}
+
+	var explosion = document.getElementsByClassName('explosion')
+	for (var i = 0; i < explosion.length; i++)
+	{
+		explosion[i].parentNode.removeChild(explosion[i])
+	}
+}
 function myLoadFunction() {
 	var playGame = document.getElementsByClassName('start')[0];
 	playGame.addEventListener('click',startGame);

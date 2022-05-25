@@ -4,7 +4,7 @@ var leftPressed = false;
 var rightPressed = false;
 var lastPressed = false;
 var hit = 1;
-
+var level = 3;
 function keyup(event) {
 	var player = document.getElementById('player');
 	if (event.keyCode == 37) {
@@ -109,15 +109,7 @@ function startGame(){
 	var playerName = document.getElementById('pn');
 
 	var score = document.getElementById('sb');
-	
-	let welcomeText = prompt("Welcome, please enter your name...");
-
-	if (welcomeText == null || welcomeText == ""){
-		alert("Good luck stranger!")
-	}
-	else {
-		alert(" Good luck " + welcomeText +"!")
-	}
+	let welcomeText = prompt(" enter your name...");
 
 	if (welcomeText == null || welcomeText == "")
 	{
@@ -126,7 +118,6 @@ function startGame(){
 
 	playerName.textContent = welcomeText;
 	
-
 	var scores = 0;
 	
 	score.textContent = scores;
@@ -148,11 +139,15 @@ function createSpaceShip(number){
 	}
 }
 
+
+
 function spaceShipPositions (){
 	var spaceShips = document.getElementsByClassName('alien');
 
 	for (var i = 0; i < spaceShips.length; i++){
-		var anyNumber = Math.ceil(Math.random() * 100);
+		// I've changed it to 90 because , when i run it in the mobile version
+		// the spaceship spawns in a positon which cause the field to be extended to a way where the grass extends past the sky
+		var anyNumber = Math.ceil(Math.random() * 90);
 		spaceShips[i].style.top = 0;
 		spaceShips[i].style.left = anyNumber + 'vw';
 		
@@ -162,7 +157,7 @@ function spaceShipPositions (){
 		bombs.style.top = '93px';
 		document.body.appendChild(bombs);
 		moveBomb(bombs)
-
+		
 	}
 	
 }
@@ -184,10 +179,14 @@ function moveBomb (bomb){
 
 
 	var topLeft = document.elementFromPoint(player.offsetLeft,player.offsetTop);
-	
 
+
+
+
+	
 	if (top > skyHeight)
 	{
+
 		bomb.classList = 'explosion';
 
 		if (topLeft.classList.contains('explosion') == true)
@@ -195,7 +194,6 @@ function moveBomb (bomb){
 			resetPlayerPosition();
 			console.log('hit');
 			player.classList = 'character hit left'
-			// reset()
 		}
 		setTimeout(function(){
 			if (bomb.parentNode != null)
@@ -208,14 +206,18 @@ function moveBomb (bomb){
 		top = top + 1
 		bomb.style.top = top + 'px'
 	}
-},velocity)
+},3)
+
 
 }
+
+
 
 function removeLife()
 {
 	var player = document.getElementsByClassName('player')
 	var life = document.getElementsByTagName('li');
+	var bombs = document.getElementsByClassName('bomb')[0];
 //if the life is higher than 1 remove a life
 	if (life.length >= 1)
 	{
@@ -226,17 +228,46 @@ function removeLife()
 	}
 	if (hit > 3)
 	{
-		player.classList = 'character stand dead';
-		var start = document.getElementsByClassName('start')[0];
-		start.style.display = 'block';
-		start.firstChild.nodeValue = 'Game over';
-		start.style.backgroundColor = 'red';
-		start.style.color = 'white';
-		reset();
+		player.classList = 'character dead';
 		
+		// start.style.display = 'block';
+		// start.style.width = '20vw';
+		// start.firstChild.nodeValue = 'Game over, play again?';
+		// start.style.backgroundColor = 'red';
+		// start.style.color = 'white';
+		
+		var btn = document.createElement('button');
+		btn.innerHTML = "GAME OVER , Play Again?";
+		btn.style.display = 'block';
+		btn.style.zIndex = '1000';
+		btn.style.width = 'fit-content';
+		btn.style.backgroundColor = 'red';
+		btn.style.left = '40%';
+		btn.style.top = '50%';
+		btn.style.marginTop = '-1em';
+		btn.style.textAlign = 'center';
+		btn.style.marginLeft = 'auto';
+		btn.style.marginRight = 'auto';
+		btn.style.color = 'white';
+		btn.style.fontSize = '2em';
+		btn.style.borderRadius = '20px';
+		btn.style.cursor = 'pointer';
+
+		btn.style.position = 'absolute';
+		document.body.appendChild(btn);
+		
+				
+
+
+		// if play again is clicked then the webpage is reloaded
+		btn.addEventListener('click', function handleClick() {
+			window.location.reload();
+		  });
 	}
+
 	
 }
+
 // Included so one bomb is tracked as one hit to the character
 function findExplosions ()
 {
@@ -248,8 +279,7 @@ function findExplosions ()
 	}	
 }
 
-
-// resets player position back to origianl position
+// resets player position back to original position
 function resetPlayerPosition()
 {
 	var player = document.getElementById('player')
@@ -258,35 +288,31 @@ function resetPlayerPosition()
 	removeLife();
 }
 
-function reset ()
-{
-	var player = document.getElementById('player')
-	player.style.top
-	 = '90vh'
-	 player.style.left = '200px'
-	 player.classList = 'character dead'
-	 clearBombs();
-	 console.log('Hello')
-}
 
 function clearBombs ()
 {
 	var bombs = document.getElementsByClassName('bomb');
-
+	var bodyElement = document.getElementsByTagName('head')[0];
 	for (var i = 0; i < bombs.length; i++)
-	{
-		setTimeout(function(){
-			bombs[i].parentNode.removeChild(bombs[i])
-		},100000)
-		
+	{		
+		for (var i = 0; i < bombs.length; i++)
+		{
+			bombs[i].parentNode.removeChild(bombs[i]);
+		}	
 	}
-
 	var explosion = document.getElementsByClassName('explosion')
 	for (var i = 0; i < explosion.length; i++)
 	{
 		explosion[i].parentNode.removeChild(explosion[i])
 	}
 }
+
+// function clearScore ()
+// {
+
+// }
+
+
 function myLoadFunction() {
 	var playGame = document.getElementsByClassName('start')[0];
 	playGame.addEventListener('click',startGame);

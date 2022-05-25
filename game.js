@@ -170,7 +170,7 @@ function moveBomb (bomb){
 
 
 	var top = bomb.offsetTop;
-	setInterval(function(){
+	
 
 	var sky = document.getElementsByClassName('sky')[0];
 	var skyHeight = sky.offsetHeight;
@@ -180,21 +180,23 @@ function moveBomb (bomb){
 
 	var topLeft = document.elementFromPoint(player.offsetLeft,player.offsetTop);
 
+	var grass = window.innerHeight - sky.offsetHeight;
+	var randomPoint = Math.floor(Math.random() *grass);
 
-
-
+	var fall = setInterval(function(){
+		if (top - randomPoint > sky.offsetHeight)
+		{
+			bomb.classList = 'explosion';
+			clearInterval(fall)
+		
 	
-	if (top > skyHeight)
-	{
-
-		bomb.classList = 'explosion';
-
 		if (topLeft.classList.contains('explosion') == true)
 		{
 			resetPlayerPosition();
 			console.log('hit');
 			player.classList = 'character hit left'
 		}
+		
 		setTimeout(function(){
 			if (bomb.parentNode != null)
 			{
@@ -206,10 +208,11 @@ function moveBomb (bomb){
 		top = top + 1
 		bomb.style.top = top + 'px'
 	}
-},3)
-
-
+},velocity)
 }
+
+
+
 
 
 
@@ -230,12 +233,7 @@ function removeLife()
 	{
 		player.classList = 'character dead';
 		
-		// start.style.display = 'block';
-		// start.style.width = '20vw';
-		// start.firstChild.nodeValue = 'Game over, play again?';
-		// start.style.backgroundColor = 'red';
-		// start.style.color = 'white';
-		
+		// Created a new button which refreshes the page
 		var btn = document.createElement('button');
 		btn.innerHTML = "GAME OVER , Play Again?";
 		btn.style.display = 'block';
@@ -252,13 +250,13 @@ function removeLife()
 		btn.style.fontSize = '2em';
 		btn.style.borderRadius = '20px';
 		btn.style.cursor = 'pointer';
-
+		btn.style.fontFamily = "Oxygen-Regular, sans-serif";
+		btn.style.boxShadow = '4px 4px 4px #000';
+		btn.style.textShadow = '2px 2px 2px #000';
 		btn.style.position = 'absolute';
 		document.body.appendChild(btn);
 		
-				
-
-
+			
 		// if play again is clicked then the webpage is reloaded
 		btn.addEventListener('click', function handleClick() {
 			window.location.reload();

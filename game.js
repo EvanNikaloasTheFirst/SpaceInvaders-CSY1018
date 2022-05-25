@@ -187,15 +187,6 @@ function moveBomb (bomb){
 		if (top - randomPoint > sky.offsetHeight)
 		{
 			bomb.classList = 'explosion';
-			clearInterval(fall)
-		
-	
-		if (topLeft.classList.contains('explosion') == true)
-		{
-			resetPlayerPosition();
-			console.log('hit');
-			player.classList = 'character hit left'
-		}
 		
 		setTimeout(function(){
 			if (bomb.parentNode != null)
@@ -208,7 +199,13 @@ function moveBomb (bomb){
 		top = top + 1
 		bomb.style.top = top + 'px'
 	}
-},velocity)
+},2)
+if (topLeft.classList.contains('explosion') == true)
+		{
+			resetPlayerPosition();
+			console.log('hit');
+			player.classList = 'character hit left'
+		}
 }
 
 

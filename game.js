@@ -169,47 +169,47 @@ function moveBomb (bomb){
 	var randomNum = Math.ceil(Math.random()*50);
 
 
-	var top = bomb.offsetTop;
+		var top = bomb.offsetTop;
+		var sky = document.getElementsByClassName('sky')[0];
+		var skyHeight = sky.offsetHeight;
 	
-
-	var sky = document.getElementsByClassName('sky')[0];
-	var skyHeight = sky.offsetHeight;
-
-	var player = document.getElementById('player');
-
-
-	var topLeft = document.elementFromPoint(player.offsetLeft,player.offsetTop);
-
-	var grass = window.innerHeight - sky.offsetHeight;
-	var randomPoint = Math.floor(Math.random() *grass);
-
-	var fall = setInterval(function(){
-		if (top - randomPoint > sky.offsetHeight)
-		{
-			bomb.classList = 'explosion';
+		var player = document.getElementById('player');
+	
+	
 		
-		setTimeout(function(){
-			if (bomb.parentNode != null)
+		var grass = window.innerHeight - skyHeight;
+		var randomPoint = Math.floor(Math.random() * grass);
+		
+		var fall = setInterval(function(){
+			var topLeft = document.elementFromPoint(player.offsetLeft,player.offsetTop);
+			if (top - randomPoint > skyHeight)
+		
 			{
-				bomb.parentNode.removeChild(bomb);
-
+				bomb.classList = 'explosion';
+				if (topLeft.classList.contains('explosion') == true)
+			{
+				resetPlayerPosition();
+				console.log('hit');
+				player.classList = 'character hit left'
 			}
-		},800)
-	} else {
-		top = top + 1
-		bomb.style.top = top + 'px'
-	}
-},2)
-if (topLeft.classList.contains('explosion') == true)
-		{
-			resetPlayerPosition();
-			console.log('hit');
-			player.classList = 'character hit left'
+			
+			setTimeout(function(){
+				if (bomb.parentNode != null)
+				{
+					bomb.parentNode.removeChild(bomb);
+	
+				}
+			},800)
+			
+	
+	
+		} else {
+			top = top + 1
+			bomb.style.top = top + 'px'
 		}
+	},2)
+	
 }
-
-
-
 
 
 
@@ -315,3 +315,5 @@ function myLoadFunction() {
 
 
 document.addEventListener('DOMContentLoaded', myLoadFunction);
+
+

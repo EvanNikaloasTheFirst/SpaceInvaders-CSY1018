@@ -5,6 +5,11 @@ var rightPressed = false;
 var lastPressed = false;
 var hit = 1;
 var level = 3;
+var speed = 1;
+var scoreBoard = 0;
+var sb = document.getElementsByClassName('scoreboard');
+
+
 function keyup(event) {
 	var player = document.getElementById('player');
 	if (event.keyCode == 37) {
@@ -100,33 +105,28 @@ function keydown(event) {
 	}
 }
 // allows the game to 'begin' 
-function startGame(){
+function startGame(bomb){
 	timeout = setInterval(move,10);
 	document.addEventListener('keydown',keydown);
 	document.addEventListener('keyup',keyup);
 	
-
 	var playerName = document.getElementById('pn');
 
-	var score = document.getElementById('sb');
+	
+
 	let welcomeText = prompt(" enter your name...");
 
 	if (welcomeText == null || welcomeText == "")
 	{
 		welcomeText = 'unknown'
 	}
-
 	playerName.textContent = welcomeText;
 	
-	var scores = 0;
-	
-	score.textContent = scores;
-
 	var playGame = document.getElementsByClassName('start')[0];
 	playGame.style.display = 'none';
 	createSpaceShip(1);
+	createMoreSpaceShip()
 	setInterval(spaceShipPositions,2000);
-
 }
 
 
@@ -137,6 +137,19 @@ function createSpaceShip(number){
 	var body = document.getElementsByTagName('body')[0];
 	body.appendChild(spaceShip);
 	}
+}
+
+function createMoreSpaceShip(number){
+	setTimeout(function(){
+//Every 30 seconds another Spaceship is added
+
+	for ( var i = 0; i < 1; i++){
+	var spaceShip = document.createElement('div');
+	spaceShip.classList = 'alien';
+	var body = document.getElementsByTagName('body')[0];
+	body.appendChild(spaceShip);
+	}
+},50000)
 }
 
 
@@ -156,18 +169,16 @@ function spaceShipPositions (){
 		bombs.style.left = anyNumber+1.7 + 'vw';
 		bombs.style.top = '93px';
 		document.body.appendChild(bombs);
-		moveBomb(bombs)
-		
+		moveBomb(bombs);
 	}
 	
 }
 function moveBomb (bomb){
 	
-	var velocity = Math.ceil(Math.random()*100);
-	var bombTimer = Math.ceil(Math.random()*100);
-	var bombExplosionTimer =Math.ceil(Math.random(700)*2100);;
-	var randomNum = Math.ceil(Math.random()*50);
-
+		var velocity = Math.ceil(Math.random()*10);
+		var bombTimer = Math.ceil(Math.random()*100);
+		var bombExplosionTimer =Math.ceil(Math.random(700)*2100);;
+		var randomNum = Math.ceil(Math.random()*50);
 
 		var top = bomb.offsetTop;
 		var sky = document.getElementsByClassName('sky')[0];
@@ -175,10 +186,9 @@ function moveBomb (bomb){
 	
 		var player = document.getElementById('player');
 	
-	
-		
 		var grass = window.innerHeight - skyHeight;
 		var randomPoint = Math.floor(Math.random() * grass);
+		
 		
 		var fall = setInterval(function(){
 			var topLeft = document.elementFromPoint(player.offsetLeft,player.offsetTop);
@@ -206,11 +216,11 @@ function moveBomb (bomb){
 		} else {
 			top = top + 1
 			bomb.style.top = top + 'px'
+			
 		}
-	},2)
+	},velocity)
 	
 }
-
 
 
 function removeLife()
@@ -301,11 +311,6 @@ function clearBombs ()
 		explosion[i].parentNode.removeChild(explosion[i])
 	}
 }
-
-// function clearScore ()
-// {
-
-// }
 
 
 function myLoadFunction() {

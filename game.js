@@ -140,17 +140,17 @@ function createSpaceShip(number){
 }
 
 function createMoreSpaceShip(number){
-	setTimeout(function(){
-//Every 30 seconds another Spaceship is added
-
-	for ( var i = 0; i < 1; i++){
-	var spaceShip = document.createElement('div');
-	spaceShip.classList = 'alien';
-	var body = document.getElementsByTagName('body')[0];
-	body.appendChild(spaceShip);
-	}
-},50000)
+//Every 35 seconds another Spaceship is added
+	setInterval(function(){
+		var spaceShip = document.createElement('div');
+		spaceShip.classList = 'alien';
+		var body = document.getElementsByTagName('body')[0];
+		body.appendChild(spaceShip);
+	},35000)
 }
+
+
+// var top = bomb.offsetTop;
 
 
 
@@ -176,11 +176,10 @@ function spaceShipPositions (){
 function moveBomb (bomb){
 	
 		var velocity = Math.ceil(Math.random()*10);
-		var bombTimer = Math.ceil(Math.random()*100);
-		var bombExplosionTimer =Math.ceil(Math.random(700)*2100);;
-		var randomNum = Math.ceil(Math.random()*50);
-
+	
+		var moveBombsToTheRight = Math.ceil(Math.random()*10)-9;
 		var top = bomb.offsetTop;
+		var left = bomb.offsetLeft;
 		var sky = document.getElementsByClassName('sky')[0];
 		var skyHeight = sky.offsetHeight;
 	
@@ -214,9 +213,22 @@ function moveBomb (bomb){
 	
 	
 		} else {
+
+			// bombs drop in a diagonal fashion
+			var distanceToLeft = 0.1
 			top = top + 1
-			bomb.style.top = top + 'px'
+			bomb.style.top = top + 'px';
+
 			
+			left = left + distanceToLeft;
+			bomb.style.left = left + 'px';
+
+			if (bomb.style.left > 50 + 'vw'){
+				distanceToLeft = -0.3;
+
+				left = left + distanceToLeft;
+			bomb.style.left = left + 'px';
+			}
 		}
 	},velocity)
 	
@@ -320,5 +332,3 @@ function myLoadFunction() {
 
 
 document.addEventListener('DOMContentLoaded', myLoadFunction);
-
-

@@ -5,9 +5,10 @@ var rightPressed = false;
 var lastPressed = false;
 var hit = 1;
 var level = 3;
-var speed = 1;
-var scoreBoard = 0;
-var sb = document.getElementsByClassName('scoreboard');
+var finalScore;
+var count = 0;
+
+var scoresCount = true;
 
 
 function keyup(event) {
@@ -112,8 +113,6 @@ function startGame(bomb){
 	
 	var playerName = document.getElementById('pn');
 
-	
-
 	let welcomeText = prompt(" enter your name...");
 
 	if (welcomeText == null || welcomeText == "")
@@ -146,7 +145,7 @@ function createMoreSpaceShip(number){
 		spaceShip.classList = 'alien';
 		var body = document.getElementsByTagName('body')[0];
 		body.appendChild(spaceShip);
-	},35000)
+	},15000)
 }
 
 
@@ -173,15 +172,17 @@ function spaceShipPositions (){
 	}
 	
 }
+
 function moveBomb (bomb){
-	
+		
+		var scores = document.getElementsByClassName('scoreboard')[0];
 		var velocity = Math.ceil(Math.random()*10);
-	
 		var moveBombsToTheRight = Math.ceil(Math.random()*10)-9;
 		var top = bomb.offsetTop;
 		var left = bomb.offsetLeft;
 		var sky = document.getElementsByClassName('sky')[0];
 		var skyHeight = sky.offsetHeight;
+
 	
 		var player = document.getElementById('player');
 	
@@ -201,19 +202,21 @@ function moveBomb (bomb){
 				console.log('hit');
 				player.classList = 'character hit left'
 			}
-			
 			setTimeout(function(){
-				if (bomb.parentNode != null)
+				if (bomb.parentNode != null )
 				{
 					bomb.parentNode.removeChild(bomb);
-	
+					
+					count+= 1;
+					console.log(count)
+					scores.innerHTML = count;
+				
 				}
 			},800)
 			
 	
 	
 		} else {
-
 			// bombs drop in a diagonal fashion
 			var distanceToLeft = 0.1
 			top = top + 1
@@ -223,7 +226,7 @@ function moveBomb (bomb){
 			left = left + distanceToLeft;
 			bomb.style.left = left + 'px';
 
-			if (bomb.style.left > 50 + 'vw'){
+			if (bomb.style.left >= 50 + 'vw'){
 				distanceToLeft = -0.3;
 
 				left = left + distanceToLeft;
@@ -235,7 +238,7 @@ function moveBomb (bomb){
 }
 
 
-function removeLife()
+function removeLife(scores)
 {
 	var player = document.getElementsByClassName('player')
 	var life = document.getElementsByTagName('li');
@@ -247,10 +250,14 @@ function removeLife()
 		console.log(hit);
 		findExplosions();
 		hit++;
+		count -= 1;
+		console.log('-1')
 	}
 	if (hit > 3)
 	{
+		
 		player.classList = 'character dead';
+
 		
 		// Created a new button which refreshes the page
 		var btn = document.createElement('button');
@@ -273,8 +280,17 @@ function removeLife()
 		btn.style.boxShadow = '4px 4px 4px #000';
 		btn.style.textShadow = '2px 2px 2px #000';
 		btn.style.position = 'absolute';
+
 		document.body.appendChild(btn);
-		
+
+
+// After all lives have been removed the score is fixed to the last number prior to their lifes being removed
+var scores = document.getElementsByClassName('scoreboard')[0];
+scores.remove()	
+var finalScoreBoard = document.getElementsByClassName('Finalscoreboard')[0];
+finalScoreBoard.innerHTML = count
+document.body.appendChild(finalScoreBoard)
+
 			
 		// if play again is clicked then the webpage is reloaded
 		btn.addEventListener('click', function handleClick() {
@@ -284,6 +300,9 @@ function removeLife()
 
 	
 }
+//store the name to the players score and displays it in a table
+
+
 
 // Included so one bomb is tracked as one hit to the character
 function findExplosions ()

@@ -43,6 +43,7 @@ body {background-image: url(images/bg.png); margin: 0; padding: 0; font-family: 
 	box-shadow: 4px 4px 4px #000;
 	opacity: 
 	80%;
+	visibility: hidden;
 }
 
 .PlayersName{
@@ -496,7 +497,8 @@ aside ul {list-style-type: none; margin-left: 0; padding-left: 0; margin-bottom:
 	height: 10px;
 	position: absolute;
 	background-position: -96px -401px;
-	transform: rotate(90deg)
+	transform: rotate(90deg);
+	visibility: visible;
 }
 
 .start:before {

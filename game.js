@@ -8,6 +8,8 @@ var level = 3;
 var finalScore;
 var count = 0;
 
+var DropBombs = true;
+
 var scoresCount = true;
 
 
@@ -130,16 +132,22 @@ function startGame(bomb){
 
 
 function createSpaceShip(number){
+
+	if (DropBombs == true)
+		{
 	for ( var i = 0; i < number; i++){
 	var spaceShip = document.createElement('div');
 	spaceShip.classList = 'alien';
 	var body = document.getElementsByTagName('body')[0];
 	body.appendChild(spaceShip);
 	}
+	}
 }
 
 function createMoreSpaceShip(number){
 //Every 35 seconds another Spaceship is added
+if (DropBombs == true)
+{
 	setInterval(function(){
 		var spaceShip = document.createElement('div');
 		spaceShip.classList = 'alien';
@@ -147,28 +155,26 @@ function createMoreSpaceShip(number){
 		body.appendChild(spaceShip);
 	},15000)
 }
-
-
-// var top = bomb.offsetTop;
-
-
+}
 
 function spaceShipPositions (){
 	var spaceShips = document.getElementsByClassName('alien');
-
+	if (DropBombs == true)
+	{
 	for (var i = 0; i < spaceShips.length; i++){
 		// I've changed it to 90 because , when i run it in the mobile version
 		// the spaceship spawns in a positon which cause the field to be extended to a way where the grass extends past the sky
 		var anyNumber = Math.ceil(Math.random() * 90);
 		spaceShips[i].style.top = 0;
 		spaceShips[i].style.left = anyNumber + 'vw';
-		
+			
 		var bombs = document.createElement('div');
 		bombs.classList = 'bomb';
 		bombs.style.left = anyNumber+1.7 + 'vw';
 		bombs.style.top = '93px';
 		document.body.appendChild(bombs);
 		moveBomb(bombs);
+		}
 	}
 	
 }
@@ -197,6 +203,8 @@ function moveBomb (bomb){
 			{
 				bomb.classList = 'explosion';
 				if (topLeft.classList.contains('explosion') == true)
+				
+				
 			{
 				resetPlayerPosition();
 				console.log('hit');
@@ -234,15 +242,17 @@ function moveBomb (bomb){
 			}
 		}
 	},velocity)
+
 	
 }
 
 
-function removeLife(scores)
+function removeLife(scores,spaceShip)
 {
 	var player = document.getElementsByClassName('player')
 	var life = document.getElementsByTagName('li');
-	var bombs = document.getElementsByClassName('bomb')[0];
+	
+	
 //if the life is higher than 1 remove a life
 	if (life.length >= 1)
 	{
@@ -258,7 +268,6 @@ function removeLife(scores)
 		
 		player.classList = 'character dead';
 
-		
 		// Created a new button which refreshes the page
 		var btn = document.createElement('button');
 		btn.innerHTML = "GAME OVER , Play Again?";
@@ -266,7 +275,7 @@ function removeLife(scores)
 		btn.style.zIndex = '1000';
 		btn.style.width = 'fit-content';
 		btn.style.backgroundColor = 'red';
-		btn.style.left = '40%';
+		btn.style.left = '50%';
 		btn.style.top = '50%';
 		btn.style.marginTop = '-1em';
 		btn.style.textAlign = 'center';
@@ -280,27 +289,26 @@ function removeLife(scores)
 		btn.style.boxShadow = '4px 4px 4px #000';
 		btn.style.textShadow = '2px 2px 2px #000';
 		btn.style.position = 'absolute';
-
 		document.body.appendChild(btn);
 
+		DropBombs = false;
 
-// After all lives have been removed the score is fixed to the last number prior to their lifes being removed
-var scores = document.getElementsByClassName('scoreboard')[0];
-scores.remove()	
-var finalScoreBoard = document.getElementsByClassName('Finalscoreboard')[0];
-finalScoreBoard.innerHTML = count
-document.body.appendChild(finalScoreBoard)
-
-			
+		// After all lives have been removed the score is fixed to the last number prior to their lifes being removed
+		var scores = document.getElementsByClassName('scoreboard')[0];
+		
+		
+		var finalScoreBoard = document.getElementsByClassName('Finalscoreboard')[0];
+		finalScoreBoard.innerHTML = count;
+		finalScoreBoard.style.visibility = 'visible';
+		document.body.appendChild(finalScoreBoard);
 		// if play again is clicked then the webpage is reloaded
 		btn.addEventListener('click', function handleClick() {
 			window.location.reload();
 		  });
-	}
+		}
 
 	
-}
-//store the name to the players score and displays it in a table
+}	
 
 
 
@@ -322,25 +330,6 @@ function resetPlayerPosition()
 	player.style.top;
 	player.style.left = '200px';
 	removeLife();
-}
-
-
-function clearBombs ()
-{
-	var bombs = document.getElementsByClassName('bomb');
-	var bodyElement = document.getElementsByTagName('head')[0];
-	for (var i = 0; i < bombs.length; i++)
-	{		
-		for (var i = 0; i < bombs.length; i++)
-		{
-			bombs[i].parentNode.removeChild(bombs[i]);
-		}	
-	}
-	var explosion = document.getElementsByClassName('explosion')
-	for (var i = 0; i < explosion.length; i++)
-	{
-		explosion[i].parentNode.removeChild(explosion[i])
-	}
 }
 
 

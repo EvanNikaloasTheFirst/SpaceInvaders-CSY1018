@@ -3,11 +3,16 @@ var downPressed = false;
 var leftPressed = false;
 var rightPressed = false;
 var lastPressed = false;
+var spaceBarPressed = false;
 var hit = 1;
 var level = 3;
 var finalScore;
 var count = 0;
 
+var shot = true;
+
+
+//if this function remains true it will allows the functions regarding hte bombs , spaceship and general game flow to operate as normal
 var DropBombs = true;
 
 var scoresCount = true;
@@ -31,8 +36,16 @@ function keyup(event) {
 		downPressed = false;
 		lastPressed = 'down';
 	}
+	// if spacebar is clicked change player animation
+	if (event.keyCode == 32)
+	{
+		spaceBarPressed = false;
+		lastPressed = 'up fire';
+		
+	}
 
 	player.className = 'character stand ' + lastPressed;
+
 }
 
 
@@ -90,7 +103,56 @@ function move() {
 		player.className = 'character walk right';
 	}
 
+	if (spaceBarPressed && DropBombs == true) 
+	{
+		
+		
+		
+
+		var sky = document.getElementsByClassName('sky')[0];
+		var skyHeight = sky.offsetHeight;
+		var bowTop = 1000;
+		var bowLeft =  1000;
+		
+//Once spacebar is clicked Arrow is generated
+
+
+/* sourced from overflow.com/questions/27645619/javascript-on-key-press-trigger-only-once */
+		document.body.onkeydown  = function(e){
+		if(e.keyCode == 32){
+		var bow = document.createElement('div');
+		bow.classList = 'arrow';
+		// bombs move upwards 
+		setInterval(function(){	
+		var topLeftBow = document.elementFromPoint(bow.offsetLeft,bow.offsetTop);
+		bow.style.top = bowTop  + 'px' ;
+		bow.style.left = bowLeft  + 'px';
+
+		bow.style.transform = 'rotate(-90deg)';
+		console.log('Arrow created');
+		
+		document.body.appendChild(bow)
+		if (topLeftBow.classList.contains('bomb')== true || bowTop == 0)
+		{
+			bow.parentNode.removeChild(bow);
+		}
+		else
+			 {
+				bowTop = bowTop - 1;
+				bow.style.top = bowTop - 'px';
+
+			}
+		},3)
+			
+	
+	}
 }
+	}
+
+}
+
+
+
 
 
 function keydown(event) {
@@ -105,6 +167,11 @@ function keydown(event) {
 	}
 	if (event.keyCode == 40) {
 		downPressed = true;
+	}
+
+	if (event.keyCode == 32)
+	{
+		spaceBarPressed = true;
 	}
 }
 // allows the game to 'begin' 
@@ -204,7 +271,7 @@ function moveBomb (bomb){
 				bomb.classList = 'explosion';
 				if (topLeft.classList.contains('explosion') == true)
 				
-				
+
 			{
 				resetPlayerPosition();
 				console.log('hit');
@@ -290,8 +357,9 @@ function removeLife(scores,spaceShip)
 		btn.style.textShadow = '2px 2px 2px #000';
 		btn.style.position = 'absolute';
 		document.body.appendChild(btn);
-
 		DropBombs = false;
+
+
 
 		// After all lives have been removed the score is fixed to the last number prior to their lifes being removed
 		var scores = document.getElementsByClassName('scoreboard')[0];

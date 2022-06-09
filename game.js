@@ -9,6 +9,7 @@ var level = 3;
 var finalScore;
 var count = 0;
 
+
 var stopPlaying = false;
 
 
@@ -128,8 +129,9 @@ function move() {
 		
 
 		
-//Once spacebar is clicked Arrow is generated
-/* sourced from overflow.com/questions/27645619/javascript-on-key-press-trigger-only-once */
+
+/* Reference: overflow.com/questions/27645619/javascript-on-key-press-trigger-only-once */
+
 		document.body.onkeydown  = function(e){
 		if(e.keyCode == 32){
 		var bow = document.createElement('div');
@@ -141,7 +143,7 @@ function move() {
 		bow.style.top = bowTop  + 'px' ;
 		bow.style.left = bowLeft  + 'px';
 		// bow.style.transform = 'rotate(-90deg)';
-		console.log('Arrow created');
+		// console.log('Arrow created');
 		
 		document.body.appendChild(bow);
 		
@@ -157,7 +159,7 @@ function move() {
 				{
 // removes the bow onces it leaves the screen
 					bow.parentNode.removeChild(bow);
-					console.log('remove bow')
+					// console.log('remove bow')
 					
 				}
 			}
@@ -212,6 +214,7 @@ function startGame(bomb){
 	
 
 	var playGame = document.getElementsByClassName('start')[0];
+
 	playGame.style.display = 'none';
 	createSpaceShip(1);
 	createMoreSpaceShip()
@@ -297,7 +300,7 @@ function moveBomb (bomb){
 
 			{
 				resetPlayerPosition();
-				console.log('hit');
+				// console.log('hit');
 				player.classList = 'character hit left'
 			}
 			setTimeout(function(){
@@ -306,7 +309,7 @@ function moveBomb (bomb){
 					bomb.parentNode.removeChild(bomb);
 					
 					count+= 1;
-					console.log(count)
+					// console.log(count)
 					scores.innerHTML = count;
 				}
 			},800)
@@ -339,28 +342,27 @@ function moveBomb (bomb){
 }
 
 
-function removeLife(scores,spaceShip)
+function removeLife(scores,spaceShip,playerName)
 {
 	var player = document.getElementsByClassName('player')
 	var life = document.getElementsByTagName('li');
 	
+	var name = document.getElementsByClassName('PlayersName');
 	
 	
 //if the life is higher than 1 remove a life
 	if (life.length >= 1)
 	{
 		life[0].remove();
-		console.log(hit);
+		// console.log(hit);
 		findExplosions();
 		hit++;
 		count -= 1;
-		console.log('-1')
+		// console.log('-1')
 	}
 	if (hit > 3)
 	{
 		var anyNumber = Math.ceil(Math.random(49) * 51);
-
-		
 		// Created a new button which refreshes the page
 		var btn = document.createElement('button');
 		btn.innerHTML = "GAME OVER , Play Again?";
@@ -383,6 +385,11 @@ function removeLife(scores,spaceShip)
 		btn.style.textShadow = '2px 2px 2px #000';
 		btn.style.position = 'absolute';
 		document.body.appendChild(btn);
+
+		
+		var highscore = document.createElement('div');
+		highscore.innerHTML = 'score:' + count;
+
 		DropBombs = false;
 		stopPlaying = false;
 
@@ -405,9 +412,19 @@ function removeLife(scores,spaceShip)
 	
 }	
 
+function saveUserDetails(playerName,scores)
+{
+	const player = {
+	name: playerName,
+	score: scores
 
+	}
 
+	window.localStorage.setItem('player', JSON.stringify(player))
 
+	JSON.parse(window.localStorage.getItem('player'));
+
+}
 
 // Included so one bomb is tracked as one hit to the character
 function findExplosions ()

@@ -488,17 +488,20 @@ aside ul {list-style-type: none; margin-left: 0; padding-left: 0; margin-bottom:
 	height: 10px;
 	position: absolute;
 	background-position: 0px -401px;
+
+	
 }
 
 
 .bomb {
 	background-image: url(images/sprites.png);
-	width: 31px;
+	width: 30px;
 	height: 10px;
 	position: absolute;
 	background-position: -96px -401px;
 	transform: rotate(90deg);
 	visibility: visible;
+	
 }
 
 .start:before {

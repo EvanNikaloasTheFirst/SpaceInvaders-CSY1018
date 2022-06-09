@@ -1,14 +1,22 @@
 # MyFirstIndieStyleGame-CSY1018
 
 A web development project assigned during my first year of university.
-✅  ❌
+
+
+
 Features
 Bare pass (D- - D+)
 When the start button is pressed the game should begin and the start button should no
-longer be visible	y	Game starts when button is pressed✅
+longer be visible	✅
+
+Game starts when button is pressed✅
+
 Spaceships get created at a random position at the top of the screen✅
+
 Bombs fall down the screen towards the player✅
+
 When the bomb hits the ground (green grass area) it explodes✅
+
 If the player is in the radius of the bomb, print “game over” and set the players animation to ✅dead (css class “character dead”)✅
 
 
@@ -24,7 +32,7 @@ animation (css class, e.g. “character hit left”). The life should be removed
 
 If the player loses all three lives, display the character dead animation and print “game over” to the screen	✅
 
-Display a “play again?” message to allow the player to restart the game if they lose	y	
+Display a “play again?” message to allow the player to restart the game if they lose	
 
 
 Very good pass (B – A-)

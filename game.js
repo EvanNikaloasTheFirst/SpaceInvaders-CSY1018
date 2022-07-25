@@ -13,7 +13,7 @@ var count = 0;
 var stopPlaying = false;
 
 
-//if this function remains true it will allows the functions regarding hte bombs , spaceship and general game flow to operate as normal
+// Game will function as long as dropBombs = true 
 var DropBombs = true;
 
 var scoresCount = true;
@@ -131,7 +131,7 @@ function move() {
 		
 
 /* Reference: overflow.com/questions/27645619/javascript-on-key-press-trigger-only-once */
-
+// Fire bow function
 		document.body.onkeydown  = function(e){
 		if(e.keyCode == 32){
 		var bow = document.createElement('div');
@@ -195,7 +195,6 @@ function keydown(event) {
 }
 // allows the game to 'begin' 
 function startGame(bomb){
-	
 	timeout = setInterval(move,10);
 	document.addEventListener('keydown',keydown);
 	document.addEventListener('keyup',keyup);
@@ -256,7 +255,8 @@ function spaceShipPositions (){
 	{
 	for (var i = 0; i < spaceShips.length; i++){
 		// I've changed it to 90 because , when i run it in the mobile version
-		// the spaceship spawns in a positon which cause the field to be extended to a way where the grass extends past the sky
+		/*  the spaceship spawns in a positon which cause the field to be extended to 
+		a way where the grass extends past the sky*/
 		var anyNumber = Math.ceil(Math.random() * 90);
 		spaceShips[i].style.top = 0;
 		spaceShips[i].style.left = anyNumber + 'vw';
@@ -274,6 +274,7 @@ function spaceShipPositions (){
 }
 
 function moveBomb (bomb){
+
 		if (stopPlaying = true)
 		{
 		var scores = document.getElementsByClassName('scoreboard')[0];
@@ -288,6 +289,7 @@ function moveBomb (bomb){
 		var grass = window.innerHeight - skyHeight;
 		var randomPoint = Math.floor(Math.random() * grass);
 
+	// objectCollision - detects if user has been struck by a bomb
 		var fall = setInterval(function(){
 			var topLeft = document.elementFromPoint(player.offsetLeft,player.offsetTop);
 
@@ -314,7 +316,7 @@ function moveBomb (bomb){
 				}
 			},800)
 			
-	
+	// Adds variety of angle to the way bombs are dropped
 	
 		} else {
 			// bombs drop in a diagonal fashion
@@ -412,19 +414,19 @@ function removeLife(scores,spaceShip,playerName)
 	
 }	
 
-function saveUserDetails(playerName,scores)
-{
-	const player = {
-	name: playerName,
-	score: scores
+// function saveUserDetails(playerName,scores)
+// {
+// 	const player = {
+// 	name: playerName,
+// 	score: scores
 
-	}
+// 	}
 
-	window.localStorage.setItem('player', JSON.stringify(player))
+// 	window.localStorage.setItem('player', JSON.stringify(player))
 
-	JSON.parse(window.localStorage.getItem('player'));
+// 	JSON.parse(window.localStorage.getItem('player'));
 
-}
+// }
 
 // Included so one bomb is tracked as one hit to the character
 function findExplosions ()
